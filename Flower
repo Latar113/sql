@@ -1,0 +1,80 @@
+
+-- Создание таблицы Customer
+CREATE TABLE Customer (
+  id INT PRIMARY KEY,
+  name VARCHAR(50) NOT NULL,
+  phone VARCHAR(20) NOT NULL,
+  address VARCHAR(100),
+  email VARCHAR(50),
+  CONSTRAINT CK_Customer_phone CHECK (phone LIKE '___-___-____' OR phone LIKE '___-____-____'),
+  CONSTRAINT CK_Customer_email CHECK (email LIKE '%_@__%.__%')
+);
+
+-- Вставка данных в таблицу Customer
+INSERT INTO Customer (id, name, phone, address, email)
+VALUES 
+(1, 'John Smith', '123-456-7890', '123 Main St', 'johnsmith@gmail.com'),
+(2, 'Jane Doe', '456-789-0123', '456 Elm St', 'janedoe@yahoo.com');
+
+-- Создание таблицы Supplier
+CREATE TABLE Supplier (
+  id INT PRIMARY KEY,
+  name VARCHAR(50) NOT NULL,
+  phone VARCHAR(20) NOT NULL,
+  email VARCHAR(50),
+  CONSTRAINT CK_Supplier_phone CHECK (phone LIKE '___-___-____' OR phone LIKE '___-____-____'),
+  CONSTRAINT CK_Supplier_email CHECK (email LIKE '%_@__%.__%')
+);
+
+-- Вставка данных в таблицу Supplier
+INSERT INTO Supplier (id, name, phone, email)
+VALUES 
+(1, 'ABC Flowers', '555-123-4567', 'abcflowers@gmail.com'),
+(2, 'XYZ Florist', '555-987-6543', 'xyzflorist@yahoo.com');
+
+-- Создание таблицы Product_Type
+CREATE TABLE Product_Type (
+  id INT PRIMARY KEY,
+  name VARCHAR(50) NOT NULL
+);
+
+-- Вставка данных в таблицу Product_Type
+INSERT INTO Product_Type (id, name)
+VALUES 
+(1, 'Roses'),
+(2, 'Lilies'),
+(3, 'Tulips');
+
+-- Создание таблицы Product
+CREATE TABLE Product (
+  id INT PRIMARY KEY,
+  name VARCHAR(50) NOT NULL,
+  price DECIMAL(8, 2) NOT NULL,
+  type_id INT NOT NULL,
+  supplier_id INT NOT NULL,
+  CONSTRAINT FK_Product_Product_Type FOREIGN KEY (type_id) REFERENCES Product_Type (id),
+  CONSTRAINT FK_Product_Supplier FOREIGN KEY (supplier_id) REFERENCES Supplier (id)
+);
+
+-- Вставка данных в таблицу Product
+INSERT INTO Product (id, name, price, type_id, supplier_id)
+VALUES 
+(1, 'Red Roses', 19.99, 1, 1),
+(2, 'Pink Lilies', 24.99, 2, 1),
+(3, 'Yellow Tulips', 14.99, 3, 2);
+
+
+-- Создание таблицы Delivery
+CREATE TABLE Delivery (
+  id INT PRIMARY KEY,
+  customer_id INT NOT NULL,
+  delivery_date DATE NOT NULL,
+  delivery_address VARCHAR(100) NOT NULL,
+  CONSTRAINT FK_Delivery_Customer FOREIGN KEY (customer_id) REFERENCES Customer (id)
+);
+
+-- Вставка данных в таблицу Delivery
+INSERT INTO Delivery (id, customer_id, delivery_date, delivery_address)
+VALUES 
+(1, 1, '2022-02-14', '123 Main St'),
+(2, 2, '2022-03-20', '456 Elm St');
