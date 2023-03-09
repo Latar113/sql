@@ -7,48 +7,45 @@ USE FlowerShop;
 
 -- Создание таблицы Customer
 CREATE TABLE Customer (
-  id INT PRIMARY KEY,
+  id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
   name VARCHAR(50) NOT NULL,
-  phone VARCHAR(20) NOT NULL, CHECK (phone LIKE '___-___-____'),
+  phone VARCHAR(20) NOT NULL CHECK (phone LIKE '___-___-____'),
   address VARCHAR(100),
-  email VARCHAR(50), CHECK (email LIKE '%_@__%.__%')
+  email VARCHAR(50) CHECK (email LIKE '%_@__%.__%')
 );
 
 -- Вставка данных в таблицу Customer
-INSERT INTO Customer (id, name, phone, address, email)
+INSERT INTO Customer (name, phone, address, email)
 VALUES 
-(1, 'Kate', '999-987-6543', '123 Main St', 'kate@mail.ru'),
-(2, 'Anna', '989-567-1234', '456 Elm St', 'anna@mail.ru');
-
+('Kate', '999-987-6543', '123 Main St', 'kate@mail.ru'),
+('Anna', '989-567-1234', '456 Elm St', 'anna@mail.ru');
 
 -- Создание таблицы Supplier
 CREATE TABLE Supplier (
-  id INT PRIMARY KEY,
+  id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
   name VARCHAR(50) NOT NULL,
-  phone VARCHAR(20) NOT NULL,
-  email VARCHAR(50),
-  CONSTRAINT CK_Supplier_phone CHECK (phone LIKE '___-___-____' OR phone LIKE '___-____-____'),
-  CONSTRAINT CK_Supplier_email CHECK (email LIKE '%_@__%.__%')
+  phone VARCHAR(20) NOT NULL CHECK (phone LIKE '___-___-____'),
+  email VARCHAR(50) CHECK (email LIKE '%_@__%.__%')
 );
 
 -- Вставка данных в таблицу Supplier
-INSERT INTO Supplier (id, name, phone, email)
+INSERT INTO Supplier (name, phone, email)
 VALUES 
-(1, 'ABC Flowers', '555-123-4567', 'abcflowers@gmail.com'),
-(2, 'XYZ Florist', '555-987-6543', 'xyzflorist@yahoo.com');
+('OOO Romashka', '901-313-1238', 'romashka@gmail.com'),
+('OAO Karenchik', '977-987-6543', 'karen@mail.ru');
 
 -- Создание таблицы Product_Type
 CREATE TABLE Product_Type (
-  id INT PRIMARY KEY,
+  id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
   name VARCHAR(50) NOT NULL
 );
 
 -- Вставка данных в таблицу Product_Type
-INSERT INTO Product_Type (id, name)
+INSERT INTO Product_Type (name)
 VALUES 
-(1, 'Roses'),
-(2, 'Lilies'),
-(3, 'Tulips');
+('candle'),
+('plants'),
+('flowers');
 
 -- Создание таблицы Product
 CREATE TABLE Product (
