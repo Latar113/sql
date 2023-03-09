@@ -83,3 +83,15 @@ INSERT INTO Delivery (id, customer_id, delivery_date, delivery_address)
 VALUES 
 (1, 1, '2022-02-14', '123 Main St'),
 (2, 2, '2022-03-20', '456 Elm St');
+
+
+
+
+
+
+
+-- Вывести клинтов у которых нет доставки
+SELECT c.name, d.delivery_address, d.delivery_date
+FROM customer as c
+LEFT JOIN Delivery as d
+ON c.id = d.customer_id and delivery_date is null 
