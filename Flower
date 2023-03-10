@@ -91,6 +91,11 @@ VALUES
 (2, 3, '08-03-2023 16:30:00', 'Vtoraya 1');
 
 
+
+
+
+
+
 -- Вывести ВСЕХ клиентов с доставками и товаром которые они заказали
 SELECT c.name, c.phone, d.delivery_date, d.delivery_address, p.name
 FROM customer as c
