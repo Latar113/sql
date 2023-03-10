@@ -19,7 +19,7 @@ INSERT INTO Customer (name, phone, address, email)
 VALUES 
 ('Kate', '999-987-6543', 'Frunze 55', 'kate@mail.ru'),
 ('Anna', '989-567-1234', 'Petrovskaya 23', 'anna@mail.ru'),
-('Petay', '997-412-2443', 'Bulvarnaya 77', 'petay@bk.com');
+('Petya', '997-412-2443', 'Bulvarnaya 77', 'petay@bk.com');
 
 
 -- Создание таблицы Supplier
