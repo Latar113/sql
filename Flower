@@ -9,16 +9,18 @@ USE FlowerShop;
 CREATE TABLE Customer (
   id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
   name VARCHAR(50) NOT NULL,
-  phone VARCHAR(20) NOT NULL CHECK (phone LIKE '___-___-____'),
+  phone VARCHAR(20) NOT NULL CHECK (phone LIKE '___-___-____') UNIQUE,
   address VARCHAR(100),
-  email VARCHAR(50) CHECK (email LIKE '%_@__%.__%')
+  email VARCHAR(50) CHECK (email LIKE '%_@__%.__%') UNIQUE
 );
 
 -- Вставка данных в таблицу Customer
 INSERT INTO Customer (name, phone, address, email)
 VALUES 
-('Kate', '999-987-6543', '123 Main St', 'kate@mail.ru'),
-('Anna', '989-567-1234', '456 Elm St', 'anna@mail.ru');
+('Kate', '999-987-6543', 'Frunze 55', 'kate@mail.ru'),
+('Anna', '989-567-1234', 'Petrovskaya 23', 'anna@mail.ru'),
+('Petay', '997-412-2443', 'Bulvarnaya 77', 'petay@bk.com');
+
 
 -- Создание таблицы Supplier
 CREATE TABLE Supplier (
@@ -32,7 +34,8 @@ CREATE TABLE Supplier (
 INSERT INTO Supplier (name, phone, email)
 VALUES 
 ('OOO Romashka', '901-313-1238', 'romashka@gmail.com'),
-('OAO Karenchik', '977-987-6543', 'karen@mail.ru');
+('OAO Karenchik', '977-987-6543', 'karen@mail.ru'),
+('AAA Monstera', '999-691-3434', 'monstera@yandex.ru');
 
 -- Создание таблицы Product_Type
 CREATE TABLE Product_Type (
@@ -49,46 +52,56 @@ VALUES
 
 -- Создание таблицы Product
 CREATE TABLE Product (
-  id INT PRIMARY KEY,
+  id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
   name VARCHAR(50) NOT NULL,
   price DECIMAL(8, 2) NOT NULL,
-  type_id INT NOT NULL,
-  supplier_id INT NOT NULL,
-  CONSTRAINT FK_Product_Product_Type FOREIGN KEY (type_id) REFERENCES Product_Type (id),
-  CONSTRAINT FK_Product_Supplier FOREIGN KEY (supplier_id) REFERENCES Supplier (id)
+  type_id INT NOT NULL, FOREIGN KEY (type_id) REFERENCES Product_Type (id)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+  supplier_id INT NOT NULL, FOREIGN KEY (supplier_id) REFERENCES Supplier (id)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE
 );
 
 -- Вставка данных в таблицу Product
-INSERT INTO Product (id, name, price, type_id, supplier_id)
+INSERT INTO Product (name, price, type_id, supplier_id)
 VALUES 
-(1, 'Red Roses', 19.99, 1, 1),
-(2, 'Pink Lilies', 24.99, 2, 1),
-(3, 'Yellow Tulips', 14.99, 3, 2);
-
+('Red Roses', 19.99, 3, 1),
+('Pink Lilies', 24.99, 3, 2),
+('Yellow Tulips', 14.99, 3, 2),
+('Shea butter manoi flowers', 450.00, 1, 3);
 
 -- Создание таблицы Delivery
 CREATE TABLE Delivery (
-  id INT PRIMARY KEY,
-  customer_id INT NOT NULL,
-  delivery_date DATE NOT NULL,
-  delivery_address VARCHAR(100) NOT NULL,
-  CONSTRAINT FK_Delivery_Customer FOREIGN KEY (customer_id) REFERENCES Customer (id)
+  id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+  customer_id INT NOT NULL FOREIGN KEY (customer_id) REFERENCES Customer (id)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+  product_id INT NOT NULL, FOREIGN KEY (product_id) REFERENCES Product (id)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+  delivery_date DATETIME NOT NULL,
+  delivery_address VARCHAR(100) NOT NULL
 );
 
 -- Вставка данных в таблицу Delivery
-INSERT INTO Delivery (id, customer_id, delivery_date, delivery_address)
+INSERT INTO Delivery (customer_id, product_id, delivery_date, delivery_address)
 VALUES 
-(1, 1, '2022-02-14', '123 Main St'),
-(2, 2, '2022-03-20', '456 Elm St');
+(1, 2, '09-03-2023 18:00:00', 'Pervaya 6'),
+(2, 3, '08-03-2023 16:30:00', 'Vtoraya 1');
 
 
-
-
-
-
+-- Вывести ВСЕХ клиентов с доставками и товаром которые они заказали
+SELECT c.name, c.phone, d.delivery_date, d.delivery_address, p.name
+FROM customer as c
+LEFT JOIN delivery as d
+ON c.id = d.customer_id
+LEFT JOIN product as p
+ON p.id = d.product_id
 
 -- Вывести клинтов у которых нет доставки
 SELECT c.name, d.delivery_address, d.delivery_date
 FROM customer as c
 LEFT JOIN Delivery as d
-ON c.id = d.customer_id and delivery_date is null 
+ON c.id = d.customer_id
+WHERE delivery_date is null 
