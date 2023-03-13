@@ -5,6 +5,7 @@ CREATE DATABASE FlowerShop;
 USE FlowerShop;
 
 
+
 -- Создание таблицы Customer
 CREATE TABLE Customer (
   id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
@@ -67,9 +68,9 @@ CREATE TABLE Product (
 -- Вставка данных в таблицу Product
 INSERT INTO Product (name, price, type_id, supplier_id)
 VALUES 
-('Red Roses', 19.99, 3, 1),
-('Pink Lilies', 24.99, 3, 2),
-('Yellow Tulips', 14.99, 3, 2),
+('Red Roses', 20, 3, 1),
+('Pink Lilies', 25, 3, 2),
+('Yellow Tulips', 15, 3, 2),
 ('Shea butter manoi flowers', 450.00, 1, 3);
 
 -- Создание таблицы Delivery
@@ -88,8 +89,8 @@ CREATE TABLE Delivery (
 -- Вставка данных в таблицу Delivery
 INSERT INTO Delivery (customer_id, product_id, delivery_date, delivery_address)
 VALUES 
-(1, 2, '09-03-2023 18:00:00', 'Pervaya 6'),
-(2, 3, '08-03-2023 16:30:00', 'Vtoraya 1');
+(1, 2, '03-17-2023 18:00:00', 'Pervaya 6'),
+(2, 3, '03-11-2023 16:30:00', 'Vtoraya 1');
 
 -- Создание таблицы Discount
 CREATE TABLE Discount(
@@ -100,11 +101,34 @@ CREATE TABLE Discount(
   amount INT NOT NULL DEFAULT 0
 );
 
--- -- Вставка данных в таблицу Discount
+-- Вставка данных в таблицу Discount
 INSERT INTO Discount (customer_id, amount)
 VALUES 
 (1,10),
 (2, 5);
+
+
+-- Создание таблицы Orders
+CREATE TABLE Orders (
+    id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    customer_id INT NOT NULL FOREIGN KEY (customer_id) REFERENCES Customer (id)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+    product_id INT NOT NULL FOREIGN KEY (product_id) REFERENCES Product (id)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+    order_date DATETIME NOT NULL,
+    total_amount DECIMAL(10, 2),
+    discount_id INT NOT NULL FOREIGN KEY (discount_id) REFERENCES Discount (id)
+  -- ON DELETE CASCADE
+  -- ON UPDATE CASCADE
+);
+
+
+INSERT INTO Orders (customer_id, product_id, order_date, total_amount, discount_id)
+VALUES 
+(1, 3, '03-17-2023 15:00:00', 570.00, 1),
+(2, 2, '03-11-2023 22:21:00', 10000.50, 2);
 
 
 
