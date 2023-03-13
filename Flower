@@ -11,15 +11,16 @@ CREATE TABLE Customer (
   name VARCHAR(50) NOT NULL,
   phone VARCHAR(20) NOT NULL CHECK (phone LIKE '___-___-____') UNIQUE,
   address VARCHAR(100),
-  email VARCHAR(50) CHECK (email LIKE '%_@__%.__%') UNIQUE
+  email VARCHAR(50) CHECK (email LIKE '%_@__%.__%') UNIQUE,
+  age INT CHECK (age < 100)
 );
 
 -- Вставка данных в таблицу Customer
-INSERT INTO Customer (name, phone, address, email)
+INSERT INTO Customer (name, phone, address, email, age)
 VALUES 
-('Kate', '999-987-6543', 'Frunze 55', 'kate@mail.ru'),
-('Anna', '989-567-1234', 'Petrovskaya 23', 'anna@mail.ru'),
-('Petya', '997-412-2443', 'Bulvarnaya 77', 'petay@bk.com');
+('Kate', '999-987-6543', 'Frunze 55', 'kate@mail.ru', 24),
+('Anna', '989-567-1234', 'Petrovskaya 23', 'anna@mail.ru', 22),
+('Petya', '997-412-2443', 'Bulvarnaya 77', 'petay@bk.com', 37);
 
 
 -- Создание таблицы Supplier
