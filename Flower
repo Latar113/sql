@@ -91,7 +91,20 @@ VALUES
 (1, 2, '09-03-2023 18:00:00', 'Pervaya 6'),
 (2, 3, '08-03-2023 16:30:00', 'Vtoraya 1');
 
+-- Создание таблицы Discount
+CREATE TABLE Discount(
+  id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+  customer_id INT NOT NULL FOREIGN KEY (customer_id) REFERENCES Customer (id)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+  amount INT NOT NULL DEFAULT 0
+);
 
+-- -- Вставка данных в таблицу Discount
+INSERT INTO Discount (customer_id, amount)
+VALUES 
+(1,10),
+(2, 5);
 
 
 
