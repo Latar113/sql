@@ -121,7 +121,6 @@ CREATE TABLE Orders (
   ON UPDATE CASCADE,
     order_date DATETIME NOT NULL,
     total_amount DECIMAL(10, 2),
-    -- (Product.price * Product.counts) as total_amount, 
     discount_id INT NOT NULL FOREIGN KEY (discount_id) REFERENCES Discount (id)
   -- ON DELETE CASCADE
   -- ON UPDATE CASCADE
